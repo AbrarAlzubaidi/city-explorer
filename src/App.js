@@ -17,6 +17,7 @@ class App extends Component {
       map:'',
     };
   }
+  
   handleClick = (e) => {
     e.preventDefault();
     console.log(process.env.REACT_APP_LOCATIONIQ_API_KEY);
@@ -38,6 +39,7 @@ class App extends Component {
     
     })
   }
+
   handleChange = (e) => {
     
     let cityName = e.target.value;
@@ -46,6 +48,7 @@ class App extends Component {
     })
     
   }
+
   render() {
     return (
       <div>
