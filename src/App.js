@@ -14,8 +14,10 @@ class App extends Component {
       lon: '',
       lat: '',
       showData: false,
+      map:'',
     };
   }
+  
   handleClick = (e) => {
     e.preventDefault();
     console.log(process.env.REACT_APP_LOCATIONIQ_API_KEY);
@@ -30,12 +32,14 @@ class App extends Component {
         city_name: responsedData.display_name,
         lon: responsedData.lon,
         lat: responsedData.lat,
-        showData: true
+        showData: true,
+        map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${responsedData.lat},${responsedData.lon}&zoom=1-18`,       
       })
       
     
     })
   }
+
   handleChange = (e) => {
     
     let cityName = e.target.value;
@@ -44,6 +48,7 @@ class App extends Component {
     })
     
   }
+
   render() {
     return (
       <div>
@@ -54,6 +59,7 @@ class App extends Component {
           <LocationView cityName={this.state.cityName}
           lon={this.state.lon}
           lat={this.state.lat}
+          map={this.state.map}
         />
         }
         
