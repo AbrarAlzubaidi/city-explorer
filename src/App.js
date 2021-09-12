@@ -14,6 +14,7 @@ class App extends Component {
       lon: '',
       lat: '',
       showData: false,
+      map:'',
     };
   }
   handleClick = (e) => {
@@ -30,7 +31,8 @@ class App extends Component {
         city_name: responsedData.display_name,
         lon: responsedData.lon,
         lat: responsedData.lat,
-        showData: true
+        showData: true,
+        map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${responsedData.lat},${responsedData.lon}&zoom=1-18`,       
       })
       
     
@@ -54,6 +56,7 @@ class App extends Component {
           <LocationView cityName={this.state.cityName}
           lon={this.state.lon}
           lat={this.state.lat}
+          map={this.state.map}
         />
         }
         
