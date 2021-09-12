@@ -24,20 +24,25 @@ class App extends Component {
       baseURL:`https://api.locationiq.com/v1/autocomplete.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.cityName}`
     }
     axios(config).then(res => {
-      let responsedData = res.data[0]
+      let responsedData = res.data[0];
+    
       this.setState({
         city_name: responsedData.display_name,
         lon: responsedData.lon,
         lat: responsedData.lat,
         showData: true
       })
+      
+    
     })
   }
   handleChange = (e) => {
+    
     let cityName = e.target.value;
     this.setState({
       cityName: cityName,
     })
+    
   }
   render() {
     return (
