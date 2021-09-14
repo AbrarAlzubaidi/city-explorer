@@ -42,12 +42,13 @@ class App extends Component {
 
       })
         .then(() => {
-          axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?lon=${this.state.lon}&lat=${this.state.lat}&searchQuery=${this.state.cityName}`).then(
+          axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?lon=${this.state.lon}&lat=${this.state.lat}`).then(
             res => {
               this.setState({
                 showWeather: true,
                 weatherInfo: res.data,
               })
+              console.log('from waether',this.state.weatherInfo)
             }
           )
         })
@@ -74,13 +75,9 @@ class App extends Component {
 
   }
 
-
-
   render() {
     return (
       <div>
-
-
         <Header />
         {
           this.state.showAlert && <AlertMsg />
@@ -95,17 +92,13 @@ class App extends Component {
           />
         }
         {this.state.showWeather && this.state.weatherInfo.map(value => {
-          return < Weather date={value.date}
+          return < Weather date={value.data}
             cityName={this.state.cityName}
             description={value.description}
           />
         })
 
         }
-
-
-
-
 
       </div>
     )
