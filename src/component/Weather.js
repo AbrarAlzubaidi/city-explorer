@@ -7,7 +7,7 @@ class Weather extends Component {
         let date= this.props.date;
         let description= this.props.description
 
-        console.log(date);
+        console.log('date',date);
         
         
         return (
