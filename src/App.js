@@ -3,10 +3,11 @@ import Form from './component/Form';
 import Header from './component/Header';
 import LocationView from './component/LocationView';
 import Weather from './component/Weather';
+import AlertMsg from './component/AlertMsg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
-console.log(`${process.env.REACT_APP_LOCATIONIQ_API_KEY}`);
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -17,41 +18,51 @@ class App extends Component {
       showData: false,
       map: '',
       showWeather: false,
-      weatherInfo: []
+      weatherInfo: [],
+      showAlert: false
     };
   }
 
   handleClick = (e) => {
     e.preventDefault();
-    console.log(process.env.REACT_APP_LOCATIONIQ_API_KEY);
-    let config = {
-      method: 'GET',
-      baseURL: `https://api.locationiq.com/v1/autocomplete.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.cityName}`
-    }
-    axios(config).then(res => {
-      let responsedData = res.data[0];
+    if (this.state.cityName !== '') {
+      let config = {
+        method: 'GET',
+        baseURL: `https://api.locationiq.com/v1/autocomplete.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.cityName}`
+      }
+      axios(config).then(res => {
+        let responsedData = res.data[0];
+        this.setState({
+          city_name: responsedData.display_name,
+          lon: responsedData.lon,
+          lat: responsedData.lat,
+          showData: true,
+          map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${responsedData.lat},${responsedData.lon}&zoom=1-18`,
+        })
 
+      })
+        .then(() => {
+          axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?lon=${this.state.lon}&lat=${this.state.lat}&searchQuery=${this.state.cityName}`).then(
+            res => {
+              this.setState({
+                showWeather: true,
+                weatherInfo: res.data,
+              })
+            }
+          )
+        })
+        this.setState({
+          showAlert:false
+        })
+
+
+    } else {
       this.setState({
-        city_name: responsedData.display_name,
-        lon: responsedData.lon,
-        lat: responsedData.lat,
-        showData: true,
-        map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${responsedData.lat},${responsedData.lon}&zoom=1-18`,
+        showAlert: true
       })
 
+    }
 
-    })
-      .then(() => {
-        axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?lon=${this.state.lon}&lat=${this.state.lat}`).then(
-          res => {
-            console.log(res.data)
-            this.setState({
-              showWeather:true
-            })
-          }
-        )
-
-      })
   }
 
   handleChange = (e) => {
@@ -63,10 +74,17 @@ class App extends Component {
 
   }
 
+
+
   render() {
     return (
       <div>
+
+
         <Header />
+        {
+          this.state.showAlert && <AlertMsg />
+        }
         <Form handleClick={this.handleClick} handleChange={this.handleChange} />
         {
           this.state.showData &&
@@ -76,11 +94,15 @@ class App extends Component {
             map={this.state.map}
           />
         }
-        {this.state.showWeather &&
-          < Weather 
-            lon={this.state.lon}
-            lat={this.state.lat}
-          />}
+        {this.state.showWeather && this.state.weatherInfo.map(value => {
+          return < Weather date={value.date}
+            cityName={this.state.cityName}
+            description={value.description}
+          />
+        })
+
+        }
+
 
 
 
