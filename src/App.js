@@ -19,7 +19,9 @@ class App extends Component {
       map: '',
       showWeather: false,
       weatherInfo: [],
-      showAlert: false
+      showAlert: false,
+      showMovie: false,
+      MovieInfo: [],
     };
   }
 
@@ -42,19 +44,29 @@ class App extends Component {
 
       })
         .then(() => {
-          axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?lon=${this.state.lon}&lat=${this.state.lat}`).then(
+          axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?searchQuery=${this.state.cityName}`).then(
             res => {
               this.setState({
                 showWeather: true,
                 weatherInfo: res.data,
               })
-              console.log('from waether',this.state.weatherInfo)
+              console.log('from waether', this.state.weatherInfo)
+            }
+          )
+        }).then(() => {
+          axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/movies?`).then(
+            res => {
+              this.setState({
+                showMovie: true,
+                MovieInfo: res.data,
+              })
+              console.log('from waether', this.state.weatherInfo)
             }
           )
         })
-        this.setState({
-          showAlert:false
-        })
+      this.setState({
+        showAlert: false
+      })
 
 
     } else {
