@@ -44,7 +44,7 @@ class App extends Component {
 
       })
         .then(() => {
-          axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?searchQuery=${this.state.cityName}`).then(
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/weather?searchQuery=${this.state.cityName}`).then(
             res => {
               this.setState({
                 showWeather: true,
@@ -54,7 +54,7 @@ class App extends Component {
             }
           )
         }).then(() => {
-          axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/movies?`).then(
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/movies?`).then(
             res => {
               this.setState({
                 showMovie: true,
