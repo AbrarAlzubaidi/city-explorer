@@ -6,6 +6,8 @@ import Weather from './component/Weather';
 import AlertMsg from './component/AlertMsg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import MovieList from './component/MovieList';
+
 
 
 class App extends Component {
@@ -44,23 +46,23 @@ class App extends Component {
 
       })
         .then(() => {
-          axios.get(`${process.env.REACT_APP_BACKEND_URL}/weather?searchQuery=${this.state.cityName}`).then(
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}`).then(
             res => {
               this.setState({
                 showWeather: true,
                 weatherInfo: res.data,
               })
-              console.log('from waether', this.state.weatherInfo)
+              //console.log('from waether', this.state.weatherInfo)
             }
           )
         }).then(() => {
-          axios.get(`${process.env.REACT_APP_BACKEND_URL}/movies?`).then(
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/movies?searchQuery=${this.state.cityName}`).then(
             res => {
               this.setState({
                 showMovie: true,
                 MovieInfo: res.data,
               })
-              console.log('from waether', this.state.weatherInfo)
+              //console.log('from movie', this.state.MovieInfo)
             }
           )
         })
@@ -103,14 +105,30 @@ class App extends Component {
             map={this.state.map}
           />
         }
-        {this.state.showWeather && this.state.weatherInfo.map(value => {
-          return < Weather date={value.data}
-            cityName={this.state.cityName}
-            description={value.description}
-          />
-        })
+        <div className='row'>
+          {this.state.showWeather && this.state.weatherInfo.map(value => {
+            return < Weather date={value.date}
+              cityName={this.state.cityName}
+              description={value.description}
+            />
+          })
+          }
+        </div>
 
-        }
+        <div className='row' >
+
+          {this.state.showMovie && this.state.MovieInfo.map(value => {
+            return <MovieList title={value.title}
+              overview={value.overview}
+              vote_average={value.vote_average}
+              poster_path={value.poster_path}
+              popularity={value.popularity}
+              release_date={value.release_date}
+            />
+          })
+          }
+
+        </div>
 
       </div>
     )
