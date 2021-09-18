@@ -1,24 +1,22 @@
 import React, { Component } from 'react'
-import { Alert, Col } from 'react-bootstrap';
+import WeatherDay from './WeatherDay'
 
 class Weather extends Component {
     render() {
+        let weatherInfo = this.props.weatherInfo;
         let cityName = this.props.cityName;
-        let date = this.props.date;
-        let description = this.props.description
-
         return (
-            <Col>
-                <Alert variant="success">
-                    <Alert.Heading>{cityName}</Alert.Heading>
-                    <p>
-                        the date: {date}
-                    </p>
-                    <hr />
-                    <p className="mb-0">
-                        the weather of the date: {description}
-                    </p>
-                </Alert></Col>
+            <div >
+                {
+                    weatherInfo.map(value => {
+                        return <WeatherDay cityName={cityName}
+                            date={value.date}
+                            description={value.description}
+                        />
+                    })
+                }
+
+            </div>
 
         )
     }

@@ -105,27 +105,15 @@ class App extends Component {
             map={this.state.map}
           />
         }
-        <div className='row'>
-          {this.state.showWeather && this.state.weatherInfo.map(value => {
-            return < Weather date={value.date}
-              cityName={this.state.cityName}
-              description={value.description}
-            />
-          })
+        <div className='row' style={{ backgroundColor:'beige'}}>
+          {this.state.showWeather && <Weather weatherInfo={this.state.weatherInfo} cityName={this.state.cityName}/>
           }
+  
         </div>
 
-        <div className='row' >
+        <div className='row' style={{ backgroundColor:'cadetblue'}}>
 
-          {this.state.showMovie && this.state.MovieInfo.map(value => {
-            return <MovieList title={value.title}
-              overview={value.overview}
-              vote_average={value.vote_average}
-              poster_path={value.poster_path}
-              popularity={value.popularity}
-              release_date={value.release_date}
-            />
-          })
+          {this.state.showMovie && <MovieList MovieInfo={this.state.MovieInfo}/>
           }
 
         </div>
