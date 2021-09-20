@@ -75,9 +75,7 @@ class App extends Component {
       this.setState({
         showAlert: true
       })
-
     }
-
   }
 
   handleChange = (e) => {
@@ -86,7 +84,6 @@ class App extends Component {
     this.setState({
       cityName: cityName,
     })
-
   }
 
   render() {
@@ -115,9 +112,7 @@ class App extends Component {
 
           {this.state.showMovie && <MovieList MovieInfo={this.state.MovieInfo}/>
           }
-
         </div>
-
       </div>
     )
   }
